@@ -13,8 +13,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -27,6 +27,7 @@
         <log4j.version>2.6.2</log4j.version>
     </properties>
 
+    <!--
     <repositories>
         <repository>
             <id>terracotta-releases</id>
@@ -35,6 +36,7 @@
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
     </repositories>
+    -->
 
     <dependencies>
 
@@ -145,16 +147,11 @@
         </dependency>
 
         <!-- Cache -->
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>2.6.11</version>
-        </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 
