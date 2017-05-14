@@ -16,7 +16,7 @@ import java.util.function.Function;
  * <p>
  * Helper for Hibernate
  */
-public class HibernateHelper implements DbHelper{
+public class HibernateHelper{
     private static final SessionFactory sessionFactory;
     private static final Logger log = LogManager.getLogger(HibernateHelper.class);
 

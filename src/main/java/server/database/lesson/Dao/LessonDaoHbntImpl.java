@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.jetbrains.annotations.Nullable;
-import server.database.helper.DbHelper;
 import server.database.helper.HibernateHelper;
 import server.database.lesson.Lesson;
 import server.database.lesson.Step;
@@ -17,7 +16,7 @@ import java.util.List;
  */
 public class LessonDaoHbntImpl implements LessonDao {
     private static final Logger log = LogManager.getLogger(LessonDaoHbntImpl.class);
-    private static DbHelper dbHelper = new HibernateHelper();
+    private static HibernateHelper dbHelper = new HibernateHelper();
 
 
     @Override
@@ -45,6 +44,7 @@ public class LessonDaoHbntImpl implements LessonDao {
         log.info("Searching steps by lesson id " + lessonId);
         List response = dbHelper.selectTransactional(session ->
             session.createQuery("from Step s where s.lesson.id = :id")
+                .setCacheable(true)
                 .setParameter("id", lessonId).list());
         if (response == null || response.isEmpty()) return null;
         return (List<Step>) response;

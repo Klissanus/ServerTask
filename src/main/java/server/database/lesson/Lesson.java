@@ -1,6 +1,9 @@
 package server.database.lesson;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
+
 
 import javax.persistence.*;
 import java.io.Serializable;

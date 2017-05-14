@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import server.RestClient;
 import server.database.lesson.Dao.LessonDao;
-import server.database.lesson.Dao.LessonDaoHbntImpl;
 import server.database.lesson.Step;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by Klissan on 13.05.2017.
  */
 public class DbInitializer {
-    private static LessonDao lessonDao = DbProvider.getLessonDao();
+    private static LessonDao lessonDao = DaoProvider.getLessonDao();
 
     public static void initDb(){
         if(!isDbEmpty()){

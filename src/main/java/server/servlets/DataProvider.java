@@ -2,13 +2,11 @@ package server.servlets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import server.RestClient;
-import server.database.DbProvider;
+import server.database.DaoProvider;
 import server.database.lesson.Dao.LessonDao;
-import server.database.lesson.Dao.LessonDaoHbntImpl;
 import server.database.lesson.Step;
 
 import javax.ws.rs.GET;
@@ -27,7 +25,7 @@ import java.util.List;
 @Path("/data")
 public class DataProvider {
     private static final Logger log = LogManager.getLogger(DataProvider.class);
-    private static LessonDao lessonDao = DbProvider.getLessonDao();
+    private static LessonDao lessonDao = DaoProvider.getLessonDao();
 
     @GET
     @Produces("application/json")
