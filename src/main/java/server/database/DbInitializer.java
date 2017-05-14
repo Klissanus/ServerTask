@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import server.RestClient;
 import server.database.lesson.Dao.LessonDao;
+import server.database.lesson.Dao.LessonDaoHbntImpl;
 import server.database.lesson.Step;
 
 import java.io.IOException;
@@ -12,18 +13,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Klissan on 13.05.2017.
+ * Database Initializer with data from Stepic
  */
 public class DbInitializer {
-    private static LessonDao lessonDao = DaoProvider.getLessonDao();
+    private static LessonDao lessonDao = new LessonDaoHbntImpl();
 
-    public static void initDb(){
-        if(!isDbEmpty()){
+    /**
+     * Initialise Database with data of lesson and steps from Stepic
+     * First check is db empty if yes
+     * Requesting Stepic's lessons while pages exists
+     * and save lessons to db
+     */
+    public static void initDb() {
+        //just check exist lesson with id=1 in db
+        if (!isDbEmpty()) {
             return;
         }
 
+        /** parse json with format:
+         * {
+         "meta": {
+         "page": 1,
+         "has_next": true,
+         "has_previous": false
+         },
+         "lessons": [
+         {
+         "id": 1,
+         "steps": [
+         541,
+         1053,
+         92,
+         4,
+         443
+         ],
+         ...
+         },
+         ...
+         ]
+         }
+         */
         try {
-            boolean hasNextPage = false;
+            boolean hasNextPage;
             int page = 1;
             do {
                 JSONObject json = RestClient.requestLessonPage(page++);
@@ -31,7 +62,7 @@ public class DbInitializer {
 
                 JSONArray lessons = json.getJSONArray("lessons");
                 addLessonsToDb(lessons);
-            }while(hasNextPage);
+            } while (hasNextPage);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,6 +70,28 @@ public class DbInitializer {
 
     }
 
+    /**
+     * Parse json format ;
+     * "lessons": [
+     * {
+     * "id": 1,
+     * "steps": [
+     * 541,
+     * 1053,
+     * 92,
+     * 4,
+     * 443
+     * ],
+     * ...
+     * },
+     * ...
+     * ]
+     *
+     * And add lessons to db
+     *
+     * @param lessons
+     *     json ArrayObject contains lessons
+     */
     private static void addLessonsToDb(JSONArray lessons) {
         for (int i = 0; i < lessons.length(); i++) {
             JSONObject lesson = lessons.getJSONObject(i);
@@ -51,15 +104,35 @@ public class DbInitializer {
         }
     }
 
-    private static List<Integer> getStepsId(JSONArray steps){
+    /**
+     * Parse json format :
+     * "steps": [
+     * 541,
+     * 1053,
+     * 92,
+     * 4,
+     * 443
+     * ],
+     *
+     * @param steps
+     *     jsonArray object contains steps of lesson
+     *
+     * @return List<Integer> steps of lesson
+     */
+    private static List<Integer> getStepsId(JSONArray steps) {
         List<Integer> stepsId = new ArrayList<>();
-        for(int j = 0; j < steps.length(); j++){
+        for (int j = 0; j < steps.length(); j++) {
             stepsId.add(steps.getInt(j));
         }
         return stepsId;
     }
 
-    private static boolean isDbEmpty(){
+    /**
+     * Just check exist lesson with id=1 in db
+     *
+     * @return true if lesson not exist in db else otherwise
+     */
+    private static boolean isDbEmpty() {
         @Nullable List<Step> steps = lessonDao.getSteps(1);
         return steps == null;
     }

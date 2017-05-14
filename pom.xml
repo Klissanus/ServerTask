@@ -27,16 +27,6 @@
         <log4j.version>2.6.2</log4j.version>
     </properties>
 
-    <!--
-    <repositories>
-        <repository>
-            <id>terracotta-releases</id>
-            <url>http://www.terracotta.org/download/reflector/releases</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-    </repositories>
-    -->
 
     <dependencies>
 
@@ -58,13 +48,6 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
-        </dependency>
-
-        <!-- JMH -->
-        <dependency>
-            <groupId>org.openjdk.jmh</groupId>
-            <artifactId>jmh-core</artifactId>
-            <version>1.19</version>
         </dependency>
 
         <!-- Jetty -->
@@ -147,11 +130,11 @@
         </dependency>
 
         <!-- Cache -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 

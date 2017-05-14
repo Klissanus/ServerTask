@@ -5,29 +5,34 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
 /**
- * Created by xakep666 on 03.11.16.
- * <p>
  * Helper for Hibernate
  */
-public class HibernateHelper{
+public class HibernateHelper {
     private static final SessionFactory sessionFactory;
+    private static final StandardServiceRegistry registry;
     private static final Logger log = LogManager.getLogger(HibernateHelper.class);
 
+    //Hibernate initialize
     static {
-        sessionFactory = new Configuration().configure()
-            .buildSessionFactory();
+        registry = new StandardServiceRegistryBuilder()
+            .configure() // configures settings from hibernate.cfg.xml
+            .build();
+        sessionFactory = new MetadataSources(registry)
+            .buildMetadata().buildSessionFactory();
 
         log.info("Session factory configured.");
     }
 
-    public HibernateHelper() {
+    private HibernateHelper() {
     }
 
     private static Session createSession() {
@@ -37,11 +42,14 @@ public class HibernateHelper{
     /**
      * Transactional selection from database
      *
-     * @param selectAction function will be executed in current session
-     * @param <T>          object type to extract
+     * @param selectAction
+     *     function will be executed in current session
+     * @param <T>
+     *     object type to extract
+     *
      * @return list of extracted objects
      */
-    public <T> List<T> selectTransactional(Function<Session, List<T>> selectAction) {
+    public static <T> List<T> selectTransactional(Function<Session, List<T>> selectAction) {
         Transaction txn = null;
         List<T> ts = Collections.emptyList();
         try (Session session = HibernateHelper.createSession()) {
@@ -61,9 +69,10 @@ public class HibernateHelper{
     /**
      * Execute transactional action in current session
      *
-     * @param f action which will be executed
+     * @param f
+     *     action which will be executed
      */
-    public void doTransactional(Function<Session, ?> f) {
+    public static void doTransactional(Function<Session, ?> f) {
         Transaction txn = null;
         try (Session session = HibernateHelper.createSession()) {
             txn = session.beginTransaction();

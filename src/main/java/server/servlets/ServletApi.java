@@ -5,12 +5,18 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-/**
- * Created by Klissan on 10.05.2017.
- */
 public class ServletApi {
 
 
+    private ServletApi() {
+    }
+
+    /**
+     * Start Jetty and Jersey
+     *
+     * @throws Exception
+     *     if smth go wrong in initializing
+     */
     public static void start() throws Exception {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
@@ -28,20 +34,12 @@ public class ServletApi {
             "server.servlets"
         );
 
-    /*jerseyServlet.setInitParameter(
-        "com.sun.jersey.spi.container.ContainerRequestFilters",
-        AuthenticationFilter.class.getCanonicalName()
-    );*/
-
         try {
             jettyServer.start();
             jettyServer.join();
         } finally {
             jettyServer.destroy();
         }
-    }
-
-    private ServletApi() {
     }
 
 }

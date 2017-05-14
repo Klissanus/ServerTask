@@ -1,6 +1,5 @@
 package server.database.lesson.Dao;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import server.database.lesson.Lesson;
 import server.database.lesson.Step;
@@ -14,15 +13,22 @@ import java.util.List;
 public interface LessonDao {
 
     /**
-     * @param lesson
+     * Add lesson with its id and steps to db
+     *
+     * @param lesson_id
+     *     lesson's id
+     * @param steps_id
+     *     ids of lessons's steps
      */
     void addLessonSteps(int lesson_id, List<Integer> steps_id);
 
 
     /**
-     * Finds lesson by own id
+     * Finds lesson by id
      *
-     * @param  id lesson id to find
+     * @param id
+     *     lesson id to find
+     *
      * @return Lesson object if found null otherwise
      */
     @Nullable

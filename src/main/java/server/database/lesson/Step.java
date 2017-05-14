@@ -1,17 +1,24 @@
 package server.database.lesson;
 
 
-import org.jetbrains.annotations.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- * Created by Klissan on 13.05.2017.
+ * Steps of lesson
  */
 @Entity
 @Table(name = "steps")
-public class Step implements Serializable{
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+public class Step implements Serializable {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -19,12 +26,15 @@ public class Step implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private Lesson lesson;
 
 
-    public Step(){}
+    //Constructors
+    public Step() {
+    }
 
-    public Step(int id){
+    public Step(int id) {
         this.id = id;
     }
 

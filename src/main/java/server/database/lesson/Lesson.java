@@ -2,20 +2,22 @@ package server.database.lesson;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.jetbrains.annotations.NotNull;
 
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Klissan on 13.05.2017.
+ * Lessons described by its id and steps
  */
-
 @Entity
 @Table(name = "lessons")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Lesson implements Serializable {
 
     @Id
@@ -23,6 +25,7 @@ public class Lesson implements Serializable {
     private int id;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lesson")
+    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private Set<Step> steps;
 
 
@@ -39,12 +42,18 @@ public class Lesson implements Serializable {
     public int getId() {
         return id;
     }
-    void setId(int id){this.id = id;}
+
+    void setId(int id) {
+        this.id = id;
+    }
 
     public Set<Step> getSteps() {
         return steps;
     }
-    void setSteps(Set<Step> steps) { this.steps = steps;}
+
+    void setSteps(Set<Step> steps) {
+        this.steps = steps;
+    }
 
 
     @Override
