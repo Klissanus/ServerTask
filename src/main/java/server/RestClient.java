@@ -85,7 +85,9 @@ public class RestClient {
                 "Unsuccessful request to url" + requestUrl);
         }
         log.info("Received page in json " + pageNum);
-        return new JSONObject(response.body().string());
+        String json = response.body().string();
+        response.body().close();
+        return new JSONObject(json);
     }
 
     public static boolean isText(int stepId) throws IOException {
@@ -109,6 +111,7 @@ public class RestClient {
             .getJSONObject(0).getJSONObject("block");
         String name = block.getString("name");
 
+        response.body().close();
         return "text".equals(name);
     }
 }
