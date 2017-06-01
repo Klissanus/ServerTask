@@ -93,7 +93,7 @@ public class RestClient {
 
     public static boolean isText(int stepId) throws IOException {
         String URL_STEP_ID = "http://stepik.org/api/steps/";
-        String requestUrl = URL_LESSON_PAGE + stepId;
+        String requestUrl = URL_STEP_ID + stepId;
         Request request = new Request.Builder()
             .url(requestUrl)
             .get().build();
