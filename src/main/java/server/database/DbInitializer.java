@@ -112,7 +112,7 @@ public class DbInitializer {
                 }
             }
 
-            lessonDao.addLessonSteps(lessonId, stepsId);
+            lessonDao.addLessonSteps(lessonId, textSteps);
         }
     }
 
