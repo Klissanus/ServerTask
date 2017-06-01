@@ -145,7 +145,7 @@ public class DbInitializer {
      * @return true if lesson not exist in db else otherwise
      */
     private static boolean isDbEmpty() {
-        @Nullable List<Step> steps = lessonDao.getSteps(1);
+        @Nullable List<Step> steps = lessonDao.getSteps(15);
         return steps == null;
     }
 }
