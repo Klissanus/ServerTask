@@ -87,4 +87,28 @@ public class RestClient {
         log.info("Received page in json " + pageNum);
         return new JSONObject(response.body().string());
     }
+
+    public static boolean isText(int stepId) throws IOException {
+        String URL_STEP_ID = "http://stepik.org/api/steps/";
+        String requestUrl = URL_LESSON_PAGE + stepId;
+        Request request = new Request.Builder()
+            .url(requestUrl)
+            .get().build();
+
+        log.info("Requesting " + requestUrl);
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) {
+            log.info("Unsuccessful request");
+            throw new RequestStepicException(
+                "Unsuccessful request to url" + requestUrl);
+        }
+        log.info("Received step in json " + stepId);
+
+        JSONObject json = new JSONObject(response.body().string());
+        JSONObject block = json.getJSONArray("steps")
+            .getJSONObject(0).getJSONObject("block");
+        String name = block.getString("name");
+
+        return "text".equals(name);
+    }
 }

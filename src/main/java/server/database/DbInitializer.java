@@ -2,6 +2,7 @@ package server.database;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import server.RestClient;
 import server.database.lesson.Dao.LessonDao;
@@ -99,6 +100,17 @@ public class DbInitializer {
 
             JSONArray steps = lessons.getJSONObject(i).getJSONArray("steps");
             List<Integer> stepsId = getStepsId(steps);
+            List<Integer> textSteps = new ArrayList<>();
+            //request steps
+            for(Integer id : stepsId){
+                try {
+                    if (RestClient.isText(id)){
+                        textSteps.add(id);
+                    }
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                }
+            }
 
             lessonDao.addLessonSteps(lessonId, stepsId);
         }
