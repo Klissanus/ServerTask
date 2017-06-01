@@ -54,6 +54,7 @@ public class RestClient {
         JSONArray lessons = json.getJSONArray("lessons");
         JSONArray steps = lessons.getJSONObject(0).getJSONArray("steps");
         log.info("Received steps : " + steps);
+        response.body().close();
         return steps;
     }
 
